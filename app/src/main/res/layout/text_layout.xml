@@ -15,10 +15,8 @@
         <LinearLayout
             android:id="@+id/text"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="58dp"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
             android:background="@color/menu_black">
 
             <ImageButton
@@ -71,12 +69,12 @@
             android:background="@drawable/circle_button2"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-   android:visibility="gone"
+            android:visibility="gone"
             app:fabSize="mini"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             android:layout_marginRight="32dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="8dp"
             android:src="@drawable/ic_send"
 
 
