@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:id="@+id/text_layout"
+<RelativeLayout android:id="@+id/text_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_black"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -15,7 +15,7 @@
         <LinearLayout
             android:id="@+id/text"
             android:layout_width="match_parent"
-            android:layout_height="58dp"
+            android:layout_height="50dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
@@ -27,9 +27,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="12dp"
-                android:layout_marginLeft="16dp"
+                android:layout_marginLeft="28dp"
                 android:layout_marginRight="16dp"
-                android:layout_marginTop="14dp"
+                android:layout_marginTop="16dp"
                 android:background="@drawable/attach" />
 
 
@@ -41,42 +41,47 @@
                 android:hint="@string/type_message"
                 android:textColorHint="@color/hint_color"
                 android:background="@null"
+                android:layout_marginLeft="11dp"
+                android:layout_marginTop="6dp"
                 android:textColor="@color/text_color"
-                android:textSize="16sp"
+                android:textSize="18sp"
 
                 />
         </LinearLayout>
 
-        <ImageButton
+        <android.support.design.widget.FloatingActionButton
             android:id="@+id/mic_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/circle_button"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginRight="15dp"
-            android:layout_marginBottom="30dp"
+            android:layout_marginRight="26dp"
+            android:layout_marginBottom="20dp"
+            app:fabSize="normal"
             android:src="@drawable/ic_mic"
 
 
             />
 
-        <ImageButton
+        <android.support.design.widget.FloatingActionButton
             android:id="@+id/up_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/circle_button2"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:visibility="gone"
+   android:visibility="gone"
+            app:fabSize="mini"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginRight="15dp"
-            android:layout_marginBottom="13dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginBottom="5dp"
             android:src="@drawable/ic_send"
 
 
             />
     </RelativeLayout>
+
 
 </RelativeLayout>

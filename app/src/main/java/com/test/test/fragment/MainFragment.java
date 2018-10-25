@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,6 +16,8 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -28,7 +31,9 @@ public class MainFragment extends Fragment {
     private  ViewPager viewPager;
     private  int int_items = 4 ;
     private EditText edtText;
-    private ImageButton attachBtn,closeBtn,micBtn,upBtn;
+    private ImageButton attachBtn,closeBtn;
+
+    private FloatingActionButton micBtn,upBtn;
     View textLayout;
     View viewPagerLayout;
 
@@ -48,8 +53,8 @@ public class MainFragment extends Fragment {
         tabLayout = (TabLayout) x.findViewById(R.id.tabs);
         viewPager = (ViewPager) x.findViewById(R.id.viewpager);
         edtText= (EditText) x.findViewById(R.id.edt_text);
-        micBtn= (ImageButton) x.findViewById(R.id.mic_btn);
-        upBtn= (ImageButton) x.findViewById(R.id.up_btn);
+        micBtn= (FloatingActionButton) x.findViewById(R.id.mic_btn);
+        upBtn= (FloatingActionButton) x.findViewById(R.id.up_btn);
         attachBtn= (ImageButton) x.findViewById(R.id.attach_button);
         closeBtn= (ImageButton) x.findViewById(R.id.close_button);
         textLayout= (View) x.findViewById(R.id.text_layout);
@@ -101,6 +106,10 @@ public class MainFragment extends Fragment {
                 viewPagerLayout.setVisibility(View.VISIBLE);
 
 
+                Animation aniFade = AnimationUtils.loadAnimation(getActivity().getApplicationContext(),R.anim.fade_in);
+                viewPagerLayout.startAnimation(aniFade);
+
+
 
             }
         });
@@ -109,9 +118,18 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                showKeyboard();
+                if(edtText.getText().toString().trim().length() > 0) {
+                    showKeyboard();
+                }
                 textLayout.setVisibility(View.VISIBLE);
                 viewPagerLayout.setVisibility(View.GONE);
+
+
+                Animation aniFade = AnimationUtils.loadAnimation(getActivity().getApplicationContext(),R.anim.fade_in);
+                textLayout.startAnimation(aniFade);
+
+
+
             }
         });
 
@@ -131,12 +149,20 @@ public class MainFragment extends Fragment {
                                       int before, int count) {
                 if(s.length() != 0)
                 {
-                    micBtn.setVisibility(View.GONE);
-                    upBtn.setVisibility(View.VISIBLE);
+
+                    micBtn.hide();
+                    upBtn.show();
+                  //  micBtn.setVisibility(View.GONE);
+                   // upBtn.setVisibility(View.VISIBLE);
                 }
                 else{
-                    micBtn.setVisibility(View.VISIBLE);
-                    upBtn.setVisibility(View.GONE);
+
+                    micBtn.show();
+                    upBtn.hide();
+
+
+                    //micBtn.setVisibility(View.VISIBLE);
+                    //upBtn.setVisibility(View.GONE);
                 }
 
             }

@@ -12,7 +12,7 @@
         android:id="@+id/dasd"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight=".53"
+        android:layout_weight=".5"
         android:gravity="right"
         android:background="@color/background_black"
         android:orientation="horizontal"
@@ -26,7 +26,7 @@
         android:id="@+id/viewpager_layout"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight=".47"
+        android:layout_weight=".5"
         android:visibility="gone"
         layout="@layout/attach_layout" />
 
@@ -36,7 +36,7 @@
         android:id="@+id/text_layout"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight=".47"
+        android:layout_weight=".5"
         layout="@layout/text_layout" />
 
 
