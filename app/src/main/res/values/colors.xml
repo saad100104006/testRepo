@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#006fff</color>
+    <color name="menu_black">#121212</color>
+    <color name="background_black">#0e0e0e</color>
+    <color name="black">#000000</color>
+    <color name="battleship">#687784</color>
+    <color name="tray_black">#0b0b0b</color>
+    <color name="highlight_blue">#006fff</color>
+    <color name="item_black">#121418</color>
+    <color name="circle_black">#030303</color>
+    <color name="body_black">#080808</color>
+    <color name="hint_color">#adb5bd</color>
+    <color name="text_color">#ececec</color>
+    <color name="button_color">#e7e7e7</color>
+    <color name="button_color_text">#fefefd</color>
+
+
+</resources>

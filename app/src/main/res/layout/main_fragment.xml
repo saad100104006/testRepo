@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/background_black"
+    android:weightSum="1">
+
+
+    <LinearLayout
+        android:id="@+id/dasd"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".53"
+        android:gravity="right"
+        android:background="@color/background_black"
+        android:orientation="horizontal"
+        android:padding="15dp">
+
+    </LinearLayout>
+
+
+
+    <include
+        android:id="@+id/viewpager_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".47"
+        android:visibility="gone"
+        layout="@layout/attach_layout" />
+
+
+
+    <include
+        android:id="@+id/text_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".47"
+        layout="@layout/text_layout" />
+
+
+
+</LinearLayout>
