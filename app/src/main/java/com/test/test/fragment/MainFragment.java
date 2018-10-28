@@ -1,7 +1,12 @@
 package com.test.test.fragment;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.graphics.Path;
 import android.graphics.PorterDuff;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -16,11 +21,14 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 
 import com.test.test.R;
 
@@ -34,8 +42,13 @@ public class MainFragment extends Fragment {
     private ImageButton attachBtn,closeBtn;
 
     private FloatingActionButton micBtn,upBtn;
+    RelativeLayout cut;
     View textLayout;
     View viewPagerLayout;
+
+    int flg=0;
+    int flagKeyboard=0;
+    int attachFlg=0;
 
 
     private int[] tabIcons = {
@@ -49,7 +62,7 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 
-        View x =  inflater.inflate(R.layout.main_fragment,null);
+        final View x =  inflater.inflate(R.layout.main_fragment,null);
         tabLayout = (TabLayout) x.findViewById(R.id.tabs);
         viewPager = (ViewPager) x.findViewById(R.id.viewpager);
         edtText= (EditText) x.findViewById(R.id.edt_text);
@@ -59,6 +72,11 @@ public class MainFragment extends Fragment {
         closeBtn= (ImageButton) x.findViewById(R.id.close_button);
         textLayout= (View) x.findViewById(R.id.text_layout);
         viewPagerLayout= (View) x.findViewById(R.id.viewpager_layout);
+        cut=(RelativeLayout)(View) x.findViewById(R.id.cut);
+
+
+        micBtn.setImageResource(R.drawable.ic_mic);
+        micBtn.setCompatElevation(8f);
 
 
         viewPager.setAdapter(new MyAdapter(getChildFragmentManager()));
@@ -71,6 +89,25 @@ public class MainFragment extends Fragment {
 
 
         setupTabIcons();
+
+
+        x.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Rect r = new Rect();
+                //r will be populated with the coordinates of your view that area still visible.
+                x.getWindowVisibleDisplayFrame(r);
+
+                int heightDiff = x.getRootView().getHeight() - (r.bottom - r.top);
+                if (heightDiff > 500) { // if more than 100 pixels, its probably a keyboard...
+                    flagKeyboard=1;
+                }
+                else{
+                if(attachFlg!=1)
+                    flagKeyboard=0;
+                }
+            }
+        });
 
         tabLayout.addOnTabSelectedListener(
                 new TabLayout.ViewPagerOnTabSelectedListener(viewPager) {
@@ -98,9 +135,26 @@ public class MainFragment extends Fragment {
 
         tabLayout.getTabAt(0).getIcon().setColorFilter(getResources().getColor(R.color.highlight_blue), PorterDuff.Mode.SRC_IN);
 
+
         attachBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                attachFlg=1;
+
+                InputMethodManager imm = (InputMethodManager) getActivity()
+                        .getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                if (imm.isAcceptingText()) {
+
+                   // flagKeyboard=1;
+                 //   writeToLog("Software Keyboard was shown");
+                } else {
+
+                    //flagKeyboard=0;
+                   // writeToLog("Software Keyboard was not shown");
+                }
+
+
                 hideKeyboard();
                 textLayout.setVisibility(View.GONE);
                 viewPagerLayout.setVisibility(View.VISIBLE);
@@ -118,7 +172,10 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if(edtText.getText().toString().trim().length() > 0) {
+
+                attachFlg=0;
+
+                if(edtText.getText().toString().trim().length() > 0 || flagKeyboard==1) {
                     showKeyboard();
                 }
                 textLayout.setVisibility(View.VISIBLE);
@@ -137,7 +194,95 @@ public class MainFragment extends Fragment {
         edtText.addTextChangedListener(new TextWatcher() {
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+
+                if(s.length() != 0)
+                {
+                    flg++;
+
+
+                    if(flg==1) {
+
+                        cut.setVisibility(View.GONE);
+
+
+                        //  slideDown(micBtn);
+
+                        TranslateAnimation animate = new TranslateAnimation(
+                                0,                 // fromXDelta
+                                0,                 // toXDelta
+                                0,                 // fromYDelta
+                                65); // toYDelta
+                        animate.setDuration(150);
+                        animate.setFillAfter(true);
+                        micBtn.startAnimation(animate);
+
+                        animate.setAnimationListener(new Animation.AnimationListener() {
+                            @Override
+                            public void onAnimationStart(Animation animation) {
+
+                            }
+
+                            @Override
+                            public void onAnimationEnd(Animation animation) {
+                                micBtn.setSize(FloatingActionButton.SIZE_MINI);
+                                micBtn.setImageResource(R.drawable.ic_send);
+                            }
+
+                            @Override
+                            public void onAnimationRepeat(Animation animation) {
+
+                            }
+                        });
+
+
+                    }
+
+
+
+                }
+                else{
+                    flg=0;
+
+                    // slideUp(micBtn);
+
+
+                  //  micBtn.setVisibility(View.VISIBLE);
+                    TranslateAnimation animate = new TranslateAnimation(
+                            0,                 // fromXDelta
+                            0,                 // toXDelta
+                            65,  // fromYDelta
+                            0);                // toYDelta
+                    animate.setDuration(150);
+                    animate.setFillAfter(true);
+                    micBtn.startAnimation(animate);
+
+
+                    animate.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            micBtn.setSize(FloatingActionButton.SIZE_AUTO);
+                            micBtn.setImageResource(R.drawable.ic_mic);
+                            micBtn.setCompatElevation(8f);
+                            cut.setVisibility(View.VISIBLE);
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+
+                        }
+                    });
+                    //micBtn.show();
+                    //micBtn.setVisibility(View.VISIBLE);
+                    //upBtn.setVisibility(View.GONE);
+                }
+            }
 
             @Override
             public void beforeTextChanged(CharSequence s, int start,
@@ -147,23 +292,7 @@ public class MainFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
-                if(s.length() != 0)
-                {
 
-                    micBtn.hide();
-                    upBtn.show();
-                  //  micBtn.setVisibility(View.GONE);
-                   // upBtn.setVisibility(View.VISIBLE);
-                }
-                else{
-
-                    micBtn.show();
-                    upBtn.hide();
-
-
-                    //micBtn.setVisibility(View.VISIBLE);
-                    //upBtn.setVisibility(View.GONE);
-                }
 
             }
         });
@@ -175,6 +304,18 @@ public class MainFragment extends Fragment {
         return x;
 
     }
+
+
+    // slide the view from below itself to the current position
+    public void slideUp(View view){
+
+    }
+
+    // slide the view from its current position to below itself
+    public void slideDown(View view){
+
+    }
+
 
     public  void hideKeyboard() {
         View view = getActivity().getCurrentFocus();
